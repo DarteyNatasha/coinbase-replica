@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="312" height="236" viewBox="0 0 312 236" fill="none">
+  <defs>
+    <linearGradient id="g2" x1="8" y1="8" x2="304" y2="228" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#003FE1"/>
+      <stop offset="1" stop-color="#1F67FF"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="296" height="220" rx="56" fill="url(#g2)"/>
+  <rect x="50" y="108" width="212" height="20" rx="10" fill="#0B2A95" fill-opacity="0.38"/>
+  <text x="60" y="122" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="0.8">CRYPTO MOVES MONEY FORWARD</text>
+</svg>
