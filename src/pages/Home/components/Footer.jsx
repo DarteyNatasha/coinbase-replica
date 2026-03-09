@@ -1,151 +1,215 @@
 import { Link } from "react-router-dom";
 
-const footerSections = [
+const footerColumns = [
   {
-    title: "Company",
-    links: [
-      { label: "About", to: "/about" },
-      { label: "Careers", to: "/careers" },
-      { label: "Affiliates", to: "/affiliates" },
-      { label: "Blog", to: "/blog" },
-      { label: "Press", to: "/press" },
-      { label: "Security", to: "/security" },
-      { label: "Investors", href: "https://investor.coinbase.com/" },
-      { label: "Vendors", to: "/vendors" },
-      { label: "Legal & privacy", to: "/legal" },
-      { label: "Cookie policy", to: "/legal/cookie" },
-    ],
-  },
-  {
-    title: "Learn",
-    links: [
-      { label: "Explore", to: "/explore" },
-      { label: "Market statistics", to: "/market-stats" },
-      { label: "Coinbase Bytes newsletter", to: "/bytes" },
-      { label: "Crypto basics", to: "/learn/crypto-basics" },
-      { label: "Tips & tutorials", to: "/learn/tips-and-tutorials" },
-      { label: "Crypto glossary", to: "/learn/crypto-glossary" },
-      { label: "Market updates", to: "/learn/market-updates" },
-      { label: "What is Bitcoin?", to: "/learn/crypto-basics/what-is-bitcoin" },
+    sections: [
       {
-        label: "What is crypto?",
-        to: "/learn/crypto-basics/what-is-cryptocurrency",
+        title: "Company",
+        links: [
+          { label: "About", to: "/about" },
+          { label: "Careers", to: "/careers" },
+          { label: "Affiliates", to: "/affiliates" },
+          { label: "Blog", to: "/blog" },
+          { label: "Press", to: "/press" },
+          { label: "Security", to: "/security" },
+          { label: "Investors", href: "https://investor.coinbase.com/" },
+          { label: "Vendors", to: "/vendors" },
+          { label: "Legal & privacy", to: "/legal" },
+          { label: "Cookie policy", to: "/legal/cookie" },
+          { label: "Cookie preferences", to: "/legal/cookie-preferences" },
+          {
+            label: "Digital Asset Disclosures",
+            to: "/legal/digital-asset-disclosures",
+          },
+        ],
       },
       {
-        label: "What is a blockchain?",
-        to: "/learn/crypto-basics/what-is-a-blockchain",
-      },
-      {
-        label: "How to set up a crypto wallet?",
-        to: "/learn/tips-and-tutorials/how-to-set-up-a-crypto-wallet",
-      },
-      {
-        label: "How to send crypto?",
-        to: "/learn/tips-and-tutorials/how-to-send-crypto",
-      },
-      { label: "Taxes", to: "/learn/crypto-basics/understanding-crypto-taxes" },
-    ],
-  },
-  {
-    title: "Individuals",
-    links: [
-      { label: "Buy & sell", to: "/" },
-      { label: "Earn free crypto", to: "/learning-rewards" },
-      { label: "Base App", href: "https://base.app/" },
-      { label: "Coinbase One", to: "/one" },
-      { label: "Coinbase Wealth", to: "/wealth" },
-      { label: "Credit Card", to: "/creditcard" },
-      { label: "Debit Card", to: "/card" },
-    ],
-  },
-  {
-    title: "Businesses",
-    links: [
-      { label: "Asset Listings", to: "/listings" },
-      { label: "Coinbase Business", to: "/business" },
-      { label: "Payments", to: "/payments" },
-      { label: "Commerce", to: "/commerce" },
-      { label: "Token Manager", to: "/tokenmanager" },
-    ],
-  },
-  {
-    title: "Institutions",
-    links: [
-      { label: "Prime", to: "/prime" },
-      { label: "Staking", to: "/staking" },
-      { label: "Exchange", to: "/exchange" },
-      { label: "International Exchange", to: "/international-exchange" },
-      { label: "Derivatives Exchange", to: "/derivatives" },
-      { label: "Verified Pools", to: "/verified-pools" },
-    ],
-  },
-  {
-    title: "Developers",
-    links: [
-      { label: "Developer Platform", to: "/developer-platform" },
-      { label: "Base", href: "https://base.org/" },
-      { label: "Server Wallets", to: "/developer-platform/products/wallets" },
-      {
-        label: "Embedded Wallets",
-        to: "/developer-platform/products/embeddedwallets",
-      },
-      { label: "OnchainKit", href: "https://www.base.org/build/onchainkit" },
-      { label: "Trade API", to: "/developer-platform/products/trade-api" },
-      { label: "Data API", to: "/developer-platform/products/data-api" },
-      { label: "Node", to: "/developer-platform/products/node" },
-      { label: "AgentKit", to: "/developer-platform/products/agentkit" },
-      { label: "Staking", to: "/developer-platform/products/staking" },
-      { label: "Faucet", to: "/developer-platform/products/faucet" },
-      {
-        label: "Exchange API",
-        to: "/developer-platform/products/exchange-api",
+        title: "Learn",
+        links: [
+          { label: "Explore", to: "/explore" },
+          { label: "Market statistics", to: "/market-stats" },
+          { label: "Coinbase Bytes newsletter", to: "/bytes" },
+          { label: "Crypto basics", to: "/learn/crypto-basics" },
+          { label: "Tips & tutorials", to: "/learn/tips-and-tutorials" },
+          { label: "Crypto glossary", to: "/learn/crypto-glossary" },
+          { label: "Market updates", to: "/learn/market-updates" },
+          {
+            label: "What is Bitcoin?",
+            to: "/learn/crypto-basics/what-is-bitcoin",
+          },
+          {
+            label: "What is crypto?",
+            to: "/learn/crypto-basics/what-is-cryptocurrency",
+          },
+          {
+            label: "What is a blockchain?",
+            to: "/learn/crypto-basics/what-is-a-blockchain",
+          },
+          {
+            label: "How to set up a crypto wallet?",
+            to: "/learn/tips-and-tutorials/how-to-set-up-a-crypto-wallet",
+          },
+          {
+            label: "How to send crypto?",
+            to: "/learn/tips-and-tutorials/how-to-send-crypto",
+          },
+          {
+            label: "Taxes",
+            to: "/learn/crypto-basics/understanding-crypto-taxes",
+          },
+        ],
       },
     ],
   },
   {
-    title: "Support",
-    links: [
-      { label: "Help center", href: "https://help.coinbase.com/" },
-      { label: "Contact us", href: "https://help.coinbase.com/contact-us/" },
+    sections: [
       {
-        label: "Create account",
-        href: "https://help.coinbase.com/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account/",
+        title: "Individuals",
+        links: [
+          { label: "Buy & sell", to: "/" },
+          { label: "Earn free crypto", to: "/learning-rewards" },
+          { label: "Base App", href: "https://base.app/" },
+          { label: "Coinbase One", to: "/one" },
+          { label: "Debit Card", to: "/card" },
+        ],
       },
       {
-        label: "ID verification",
-        href: "https://help.coinbase.com/coinbase/managing-my-account#identity-verification/",
+        title: "Businesses",
+        links: [
+          { label: "Asset Listings", to: "/listings" },
+          { label: "Coinbase Business", to: "/business" },
+          { label: "Payments", to: "/payments" },
+          { label: "Commerce", to: "/commerce" },
+          { label: "Token Manager", to: "/tokenmanager" },
+        ],
       },
       {
-        label: "Account information",
-        href: "https://help.coinbase.com/coinbase/managing-my-account/",
+        title: "Institutions",
+        links: [
+          { label: "Prime", to: "/prime" },
+          { label: "Staking", to: "/staking" },
+          { label: "Exchange", to: "/exchange" },
+          { label: "International Exchange", to: "/international-exchange" },
+          { label: "Derivatives Exchange", to: "/derivatives" },
+          { label: "Verified Pools", to: "/verified-pools" },
+        ],
       },
-      {
-        label: "Payment methods",
-        href: "https://help.coinbase.com/coinbase/getting-started#add-a-payment-method/",
-      },
-      {
-        label: "Supported crypto",
-        href: "https://help.coinbase.com/supported-crypto.html",
-      },
-      { label: "Status", href: "https://status.coinbase.com/" },
     ],
   },
   {
-    title: "Asset prices",
-    links: [
-      { label: "Bitcoin price", to: "/price/bitcoin" },
-      { label: "Ethereum price", to: "/price/ethereum" },
-      { label: "Solana price", to: "/price/solana" },
-      { label: "XRP price", to: "/price/xrp" },
+    sections: [
+      {
+        title: "Developers",
+        links: [
+          { label: "Developer Platform", to: "/developer-platform" },
+          { label: "Base", href: "https://base.org/" },
+          {
+            label: "Server Wallets",
+            to: "/developer-platform/products/wallets",
+          },
+          {
+            label: "Embedded Wallets",
+            to: "/developer-platform/products/embeddedwallets",
+          },
+          {
+            label: "Base Accounts (Smart Wallets)",
+            to: "/developer-platform/products/smart-wallets",
+          },
+          {
+            label: "Onramp & Offramp",
+            to: "/developer-platform/products/onramp",
+          },
+          { label: "x402", to: "/developer-platform/products/x402" },
+          {
+            label: "Trade API",
+            to: "/developer-platform/products/trade-api",
+          },
+          { label: "Paymaster", to: "/developer-platform/products/paymaster" },
+          {
+            label: "OnchainKit",
+            href: "https://www.base.org/build/onchainkit",
+          },
+          { label: "Data API", to: "/developer-platform/products/data-api" },
+          {
+            label: "Verifications",
+            to: "/developer-platform/products/verifications",
+          },
+          { label: "Node", to: "/developer-platform/products/node" },
+          { label: "AgentKit", to: "/developer-platform/products/agentkit" },
+          { label: "Staking", to: "/developer-platform/products/staking" },
+          { label: "Faucet", to: "/developer-platform/products/faucet" },
+          {
+            label: "Exchange API",
+            to: "/developer-platform/products/exchange-api",
+          },
+          {
+            label: "International Exchange API",
+            to: "/developer-platform/products/international-exchange-api",
+          },
+          { label: "Prime API", to: "/developer-platform/products/prime-api" },
+          {
+            label: "Derivatives API",
+            to: "/developer-platform/products/derivatives-api",
+          },
+        ],
+      },
     ],
   },
   {
-    title: "Stock prices",
-    links: [
-      { label: "NVIDIA price", to: "/stock/nvda" },
-      { label: "Apple price", to: "/stock/aapl" },
-      { label: "Microsoft price", to: "/stock/msft" },
-      { label: "Amazon price", to: "/stock/amzn" },
+    sections: [
+      {
+        title: "Support",
+        links: [
+          { label: "Help center", href: "https://help.coinbase.com/" },
+          {
+            label: "Contact us",
+            href: "https://help.coinbase.com/contact-us/",
+          },
+          {
+            label: "Create account",
+            href: "https://help.coinbase.com/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account/",
+          },
+          {
+            label: "ID verification",
+            href: "https://help.coinbase.com/coinbase/managing-my-account#identity-verification/",
+          },
+          {
+            label: "Account information",
+            href: "https://help.coinbase.com/coinbase/managing-my-account/",
+          },
+          {
+            label: "Payment methods",
+            href: "https://help.coinbase.com/coinbase/getting-started#add-a-payment-method/",
+          },
+          {
+            label: "Account access",
+            href: "https://help.coinbase.com/coinbase/managing-my-account/account-access/",
+          },
+          {
+            label: "Supported crypto",
+            href: "https://help.coinbase.com/supported-crypto.html",
+          },
+          { label: "Status", href: "https://status.coinbase.com/" },
+        ],
+      },
+      {
+        title: "Asset prices",
+        links: [
+          { label: "Bitcoin price", to: "/price/bitcoin" },
+          { label: "Ethereum price", to: "/price/ethereum" },
+          { label: "Solana price", to: "/price/solana" },
+          { label: "XRP price", to: "/price/xrp" },
+        ],
+      },
+      {
+        title: "Stock prices",
+        links: [
+          { label: "NVIDIA price", to: "/stock/nvda" },
+          { label: "Apple price", to: "/stock/aapl" },
+          { label: "Microsoft price", to: "/stock/msft" },
+          { label: "Amazon price", to: "/stock/amzn" },
+        ],
+      },
     ],
   },
 ];
@@ -213,36 +277,40 @@ export default function Footer() {
           </svg>
         </div>
 
-        {/* Link grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {footerSections.map((section) => (
-            <div key={section.title}>
-              <h4 className="text-sm font-bold text-gray-900 mb-3">
-                {section.title}
-              </h4>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    {link.href ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-blue-600 hover:underline"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        to={link.to}
-                        className="text-xs text-blue-600 hover:underline"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
+        {/* Link grid — 4 columns, each with stacked sections */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10">
+          {footerColumns.map((column, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-8">
+              {column.sections.map((section) => (
+                <div key={section.title}>
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">
+                    {section.title}
+                  </h4>
+                  <ul className="space-y-2">
+                    {section.links.map((link) => (
+                      <li key={link.label}>
+                        {link.href ? (
+                          <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:underline"
+                          >
+                            {link.label}
+                          </a>
+                        ) : (
+                          <Link
+                            to={link.to}
+                            className="text-xs text-blue-600 hover:underline"
+                          >
+                            {link.label}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -288,8 +356,63 @@ export default function Footer() {
               <circle cx="12" cy="12" r="10" />
               <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z" />
             </svg>
-            <span>United States • English</span>
+            <span>Global • English</span>
           </div>
+        </div>
+
+        {/* Download the App */}
+        <div className="mt-8 pt-6 border-t border-gray-100">
+          <p className="text-sm font-semibold text-gray-900 mb-3">
+            Download the App
+          </p>
+          <div className="flex gap-3">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.coinbase.android"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                alt="Get it on Google Play"
+                className="h-10"
+              />
+            </a>
+            <a
+              href="https://apps.apple.com/app/coinbase-buy-bitcoin-ether/id886427730"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                alt="Download on the App Store"
+                className="h-10"
+              />
+            </a>
+          </div>
+        </div>
+
+        {/* Legal disclaimer */}
+        <div className="mt-6 pt-4">
+          <p className="text-[10px] leading-relaxed text-gray-400">
+            Information provided on this site is for general educational
+            purposes only and is not intended to constitute investment or other
+            advice on financial products. Such information is not, and should not
+            be read as, an offer or recommendation to buy or sell or a
+            solicitation of an offer or recommendation to buy or sell any
+            particular digital asset or to use any particular investment
+            strategy. Coinbase and its affiliates (collectively "Coinbase") makes
+            no representations as to the accuracy, completeness, timeliness,
+            suitability, or validity of any information on this site and will not
+            be liable for any errors, omissions, or delays in this information
+            or any losses, injuries, or damages arising from its display or use.
+            Unless otherwise noted, all images are the property of Coinbase.
+            Coinbase is not registered or licensed with the U.S. Securities and
+            Exchange Commission or the U.S. Commodity Futures Trading
+            Commission. Links provided to third-party sites are for
+            informational purposes. Such sites are not under the control of
+            Coinbase, and Coinbase is not responsible for the accuracy of the
+            content on such third-party sites.
+          </p>
         </div>
       </div>
     </footer>

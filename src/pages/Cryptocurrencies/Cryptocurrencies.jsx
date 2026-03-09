@@ -1,5 +1,5 @@
 import Navbar from "../Home/components/Navbar";
-import Footer from "../Home/components/Footer";
+
 import ExploreHeader from "./components/ExploreHeader";
 import MarketStats from "./components/MarketStats";
 import CryptoTable from "./components/CryptoTable";
@@ -26,7 +26,6 @@ export default function Cryptocurrencies() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
