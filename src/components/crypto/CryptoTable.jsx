@@ -1,8 +1,15 @@
 import CryptoRow from './CryptoRow';
-import { cryptoData } from '../../data/mockData';
 
 const CryptoTable = ({ limit, data }) => {
-    const displayData = data || (limit ? cryptoData.slice(0, limit) : cryptoData);
+    const displayData = data || [];
+
+    if (displayData.length === 0) {
+        return (
+            <div className="text-center py-8 text-gray-500">
+                No cryptocurrencies found
+            </div>
+        );
+    }
 
     return (
         <div className="w-full overflow-x-auto">
@@ -18,7 +25,7 @@ const CryptoTable = ({ limit, data }) => {
                 </thead>
                 <tbody>
                     {displayData.map((coin) => (
-                        <CryptoRow key={coin.id} coin={coin} />
+                        <CryptoRow key={coin._id} coin={coin} />
                     ))}
                 </tbody>
             </table>

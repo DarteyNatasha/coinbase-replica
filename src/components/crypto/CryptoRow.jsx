@@ -1,35 +1,36 @@
 import { Link } from 'react-router-dom';
 
 const CryptoRow = ({ coin }) => {
-    const isPositive = coin.change >= 0;
+    const isPositive = coin.change24h >= 0;
+
+    const formatPrice = (price) => {
+        return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+
+    const formatMarketCap = (marketCap) => {
+        if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(2)}B`;
+        if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(2)}M`;
+        return `$${marketCap.toLocaleString()}`;
+    };
 
     return (
         <tr className="group border-b border-gray-100 transition-colors hover:bg-gray-50">
             <td className="py-4">
-                <Link to={`/assets/${coin.id}`} className="flex items-center gap-4">
-                    {coin.image ? (
-                        <img src={coin.image} alt={coin.name} className="h-8 w-8 rounded-full" />
-                    ) : (
-                        <div
-                            className={`flex h-8 w-8 items-center justify-center rounded-full ${coin.color || 'bg-blue-600'} text-xs font-bold text-white`}
-                        >
-                            {coin.symbol[0]}
-                        </div>
-                    )}
+                <Link to={`/assets/${coin._id}`} className="flex items-center gap-4">
+                    <img src={coin.image} alt={coin.name} className="h-8 w-8 rounded-full" />
                     <div>
-                        <div className="font-bold">{coin.name}</div>
-                        <div className="text-sm text-gray-500">{coin.symbol}</div>
+                        <div className="font-bold capitalize">{coin.name}</div>
+                        <div className="text-sm text-gray-500 uppercase">{coin.symbol}</div>
                     </div>
                 </Link>
             </td>
             <td className="py-4 text-right font-semibold">
-                ${coin.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ${formatPrice(coin.price)}
             </td>
             <td className={`py-4 text-right font-semibold ${isPositive ? 'text-green-600' : 'text-red-500'}`}>
-                {isPositive ? '+' : ''}
-                {coin.change}%
+                {isPositive ? '+' : ''}{coin.change24h}%
             </td>
-            <td className="hidden py-4 text-right text-gray-500 md:table-cell">{coin.marketCap}</td>
+            <td className="hidden py-4 text-right text-gray-500 md:table-cell">{formatMarketCap(coin.marketCap)}</td>
             <td className="py-4 text-right">
                 <Link
                     to="/signup"

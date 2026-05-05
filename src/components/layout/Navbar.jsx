@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   FiArrowRight,
   FiBarChart2,
@@ -34,14 +34,15 @@ import promoBusinesses from '../../assets/crypto/images/menu_businesses.svg';
 import promoInstitutions from '../../assets/crypto/images/menu_institutions.svg';
 import promoDevelopers from '../../assets/crypto/images/menu_developers.svg';
 import promoCompany from '../../assets/crypto/images/menu_company.svg';
+import { useAuth } from '../../context/AuthContext';
 
 const navItems = [
   { label: 'Cryptocurrencies', to: '/explore' },
-  { label: 'Individuals', to: '/signup', menuKey: 'individuals' },
-  { label: 'Businesses', to: '/signup', menuKey: 'businesses' },
-  { label: 'Institutions', to: '/signup', menuKey: 'institutions' },
-  { label: 'Developers', to: '/signup', menuKey: 'developers' },
-  { label: 'Company', to: '/signup', menuKey: 'company' },
+  { label: 'Individuals', to: '/individuals', menuKey: 'individuals' },
+  { label: 'Businesses', to: '/businesses', menuKey: 'businesses' },
+  { label: 'Institutions', to: '/institutions', menuKey: 'institutions' },
+  { label: 'Developers', to: '/developers', menuKey: 'developers' },
+  { label: 'Company', to: '/company', menuKey: 'company' },
 ];
 
 const megaMenus = {
@@ -183,6 +184,9 @@ const Navbar = () => {
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [languageSearch, setLanguageSearch] = useState('');
   const [selectedLocale, setSelectedLocale] = useState(() => localStorage.getItem('cb-locale') || 'English|Global');
+  
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const navLinkClass = ({ isActive }) =>
     `cb-nav-hover rounded-full px-4 text-[12px] font-semibold transition-colors ${isActive ? 'cb-nav-hover-active bg-[#f1f3f5] text-[#0052ff]' : 'text-[#0a0b0d] hover:bg-[#f1f3f5] hover:text-[#0052ff]'}`;
@@ -218,6 +222,12 @@ const Navbar = () => {
     localStorage.setItem('cb-locale', locale);
     window.dispatchEvent(new Event('cb-locale-change'));
     setShowLanguageMenu(false);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+    setIsOpen(false);
   };
 
   return (
@@ -301,12 +311,32 @@ const Navbar = () => {
             ) : null}
           </div>
 
-          <NavLink to="/signin" className="cb-link-underline px-2 text-[12px] font-semibold text-[#0a0b0d] hover:text-[#0052ff]">
-            Sign in
-          </NavLink>
-          <NavLink to="/signup" className="rounded-full bg-[#0052ff] px-4 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-[#0046d5]">
-            Sign up
-          </NavLink>
+          {/* Auth Section - Desktop */}
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link to="/profile" className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-blue-600">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="hidden lg:inline">Hi, {user.name.split(' ')[0]}</span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="rounded-full bg-red-600 px-4 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-red-700"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <NavLink to="/signin" className="cb-link-underline px-2 text-[12px] font-semibold text-[#0a0b0d] hover:text-[#0052ff]">
+                Sign in
+              </NavLink>
+              <NavLink to="/signup" className="rounded-full bg-[#0052ff] px-4 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-[#0046d5]">
+                Sign up
+              </NavLink>
+            </>
+          )}
         </div>
 
         <button className="p-2 md:hidden" aria-label="Toggle menu" onClick={() => setIsOpen((previous) => !previous)}>
@@ -361,6 +391,7 @@ const Navbar = () => {
         </div>
       ) : null}
 
+      {/* Mobile Menu */}
       {isOpen ? (
         <div className="border-t border-gray-100 bg-white px-4 py-4 shadow md:hidden">
           <div className="flex flex-col gap-3">
@@ -369,12 +400,30 @@ const Navbar = () => {
                 {item.label}
               </NavLink>
             ))}
-            <NavLink to="/signin" className="text-sm font-semibold text-[#0a0b0d]" onClick={() => setIsOpen(false)}>
-              Sign in
-            </NavLink>
-            <NavLink to="/signup" className="w-fit rounded-full bg-[#0052ff] px-4 py-2 text-sm font-semibold text-white" onClick={() => setIsOpen(false)}>
-              Sign up
-            </NavLink>
+            
+            {/* Auth Section - Mobile */}
+            {user ? (
+              <>
+                <div className="pt-2 pb-1 text-sm font-semibold text-gray-600">
+                  Signed in as <span className="text-blue-600">{user.email}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-fit rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink to="/signin" className="text-sm font-semibold text-[#0a0b0d]" onClick={() => setIsOpen(false)}>
+                  Sign in
+                </NavLink>
+                <NavLink to="/signup" className="w-fit rounded-full bg-[#0052ff] px-4 py-2 text-sm font-semibold text-white" onClick={() => setIsOpen(false)}>
+                  Sign up
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       ) : null}
