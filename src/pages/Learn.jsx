@@ -1,4 +1,5 @@
 import { learnData } from '../data/mockData';
+import { Link } from "react-router-dom";
 import coverOne from '../assets/crypto/images/0_4mVyVaU6yLa--GR_.avif';
 import coverTwo from '../assets/crypto/images/Replace_Bank.avif';
 import coverThree from '../assets/crypto/images/Learn_Illustration_Ultimate_Guide_Bitcoin.avif';

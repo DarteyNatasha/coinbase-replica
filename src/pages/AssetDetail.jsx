@@ -1,22 +1,69 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { FiArrowLeft as ArrowLeft } from 'react-icons/fi';
-import { cryptoData } from '../data/mockData';
+import api from '../services/api';
 
 const AssetDetail = () => {
     const { id } = useParams();
-    const coin = cryptoData.find((item) => item.id === id) || {
-        id,
-        name: id,
-        symbol: String(id || '---').toUpperCase(),
-        price: 0,
-        change: 0,
-        marketCap: '$0',
-        volume: '$0',
-        circulatingSupply: 'N/A',
-        color: 'bg-blue-600',
+    const [coin, setCoin] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchCryptoDetails();
+    }, [id]);
+
+    const fetchCryptoDetails = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await api.getCryptocurrencyById(id);
+            if (data.success) {
+                setCoin(data.data);
+            } else {
+                setError('Cryptocurrency not found');
+            }
+        } catch (error) {
+            console.error('Error fetching crypto details:', error);
+            setError('Failed to load cryptocurrency details');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const isPositive = coin.change >= 0;
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-96">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+        );
+    }
+
+    if (error || !coin) {
+        return (
+            <div className="mx-auto max-w-7xl px-6 py-12 text-center">
+                <p className="text-red-600">{error || 'Cryptocurrency not found'}</p>
+                <Link to="/explore" className="mt-4 inline-block text-blue-600 hover:underline">
+                    Back to explore
+                </Link>
+            </div>
+        );
+    }
+
+    const isPositive = coin.change24h >= 0;
+
+    const formatMarketCap = (marketCap) => {
+        if (marketCap >= 1e12) return `$${(marketCap / 1e12).toFixed(2)}T`;
+        if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(2)}B`;
+        if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(2)}M`;
+        return `$${marketCap.toLocaleString()}`;
+    };
+
+    const formatVolume = (volume) => {
+        if (volume >= 1e9) return `$${(volume / 1e9).toFixed(2)}B`;
+        if (volume >= 1e6) return `$${(volume / 1e6).toFixed(2)}M`;
+        return `$${volume.toLocaleString()}`;
+    };
 
     return (
         <div className="cb-reveal mx-auto max-w-7xl px-6 py-12" style={{ '--reveal-delay': '40ms' }}>
@@ -27,16 +74,10 @@ const AssetDetail = () => {
             <div className="flex flex-col gap-12 lg:flex-row">
                 <div className="lg:w-2/3">
                     <div className="mb-6 flex items-center gap-4">
-                        {coin.image ? (
-                            <img src={coin.image} alt={coin.name} className="h-12 w-12 rounded-full" />
-                        ) : (
-                            <div className={`flex h-12 w-12 items-center justify-center rounded-full ${coin.color} text-xl font-bold text-white`}>
-                                {coin.symbol[0]}
-                            </div>
-                        )}
+                        <img src={coin.image} alt={coin.name} className="h-12 w-12 rounded-full" />
                         <div>
                             <h1 className="text-4xl font-bold capitalize">{coin.name}</h1>
-                            <p className="font-semibold text-gray-500">{coin.symbol}</p>
+                            <p className="font-semibold text-gray-500 uppercase">{coin.symbol}</p>
                         </div>
                     </div>
 
@@ -45,8 +86,7 @@ const AssetDetail = () => {
                             ${coin.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
                         <p className={`font-semibold ${isPositive ? 'text-green-600' : 'text-red-500'}`}>
-                            {isPositive ? '+' : ''}
-                            {coin.change}% (1d)
+                            {isPositive ? '+' : ''}{coin.change24h}% (24h)
                         </p>
                     </div>
 
@@ -62,26 +102,26 @@ const AssetDetail = () => {
                         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                             <div>
                                 <p className="mb-1 text-sm text-gray-500">Market cap</p>
-                                <p className="text-lg font-semibold">{coin.marketCap}</p>
+                                <p className="text-lg font-semibold">{formatMarketCap(coin.marketCap)}</p>
                             </div>
                             <div>
                                 <p className="mb-1 text-sm text-gray-500">Volume (24h)</p>
-                                <p className="text-lg font-semibold">{coin.volume}</p>
+                                <p className="text-lg font-semibold">{formatVolume(coin.volume24h)}</p>
                             </div>
                             <div>
                                 <p className="mb-1 text-sm text-gray-500">Circulating supply</p>
-                                <p className="text-lg font-semibold">{coin.circulatingSupply}</p>
+                                <p className="text-lg font-semibold">{coin.circulatingSupply?.toLocaleString() || 'N/A'}</p>
                             </div>
                             <div>
-                                <p className="mb-1 text-sm text-gray-500">Popularity</p>
-                                <p className="text-lg font-semibold">#{cryptoData.findIndex((item) => item.id === coin.id) + 1 || '--'}</p>
+                                <p className="mb-1 text-sm text-gray-500">Rank</p>
+                                <p className="text-lg font-semibold">#{coin.rank || '--'}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="lg:w-1/3">
-                      <div className="cb-hover-rise sticky top-24 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <div className="cb-hover-rise sticky top-24 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                         <h3 className="mb-6 text-xl font-bold">Buy {coin.symbol}</h3>
                         <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-300 p-4 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
                             <div className="flex flex-1 flex-col">

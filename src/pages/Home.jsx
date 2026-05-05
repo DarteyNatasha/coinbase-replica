@@ -1,5 +1,8 @@
+
 import { Link, useNavigate } from 'react-router-dom';
-import { cryptoData, learnData } from '../data/mockData';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import api from '../services/api';
 import heroImage from '../assets/crypto/images/Hero__4_.avif';
 import advancedImage from '../assets/crypto/images/Advanced.avif';
 import zeroFeesImage from '../assets/crypto/images/zero_fees_us.avif';
@@ -13,6 +16,26 @@ const homeLearnImages = [learnCardOne, learnCardTwo, learnCardThree];
 
 const Home = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [topCryptos, setTopCryptos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTopCryptos();
+  }, []);
+
+  const fetchTopCryptos = async () => {
+    try {
+      const data = await api.getAllCryptocurrencies(1, 6);
+      if (data.success) {
+        setTopCryptos(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching cryptos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleHeroSubmit = (event) => {
     event.preventDefault();
@@ -72,40 +95,35 @@ const Home = () => {
             </div>
             <Link to="/explore" className="text-blue-400 hover:text-blue-300">View all</Link>
           </div>
-          <div className="space-y-1">
-            {cryptoData
-              .slice()
-              .sort((a, b) => b.change - a.change)
-              .slice(0, 5)
-              .map((coin) => (
+          {loading ? (
+            <div className="flex justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            </div>
+          ) : (
+            <div className="space-y-1">
+              {topCryptos.map((coin) => (
                 <Link
-                  key={coin.id}
-                  to={`/assets/${coin.id}`}
+                  key={coin._id}
+                  to={`/assets/${coin._id}`}
                   className="flex items-center justify-between rounded-xl px-3 py-3 transition-colors hover:bg-white/10"
                 >
                   <div className="flex items-center gap-3">
-                    {coin.image ? (
-                      <img src={coin.image} alt={coin.name} className="h-8 w-8 rounded-full" />
-                    ) : (
-                      <div className={`flex h-8 w-8 items-center justify-center rounded-full ${coin.color} text-xs font-bold`}>
-                        {coin.symbol[0]}
-                      </div>
-                    )}
+                    <img src={coin.image} alt={coin.name} className="h-8 w-8 rounded-full" />
                     <div>
-                      <p className="font-semibold">{coin.name}</p>
-                      <p className="text-xs text-gray-400">{coin.symbol}</p>
+                      <p className="font-semibold capitalize">{coin.name}</p>
+                      <p className="text-xs text-gray-400 uppercase">{coin.symbol}</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold">${coin.price.toLocaleString()}</p>
-                    <p className={`text-sm font-semibold ${coin.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {coin.change >= 0 ? '+' : ''}
-                      {coin.change}%
+                    <p className={`text-sm font-semibold ${coin.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {coin.change24h >= 0 ? '+' : ''}{coin.change24h}%
                     </p>
                   </div>
                 </Link>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -162,24 +180,30 @@ const Home = () => {
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
-            {learnData.map((article, index) => (
-              <Link
-                to="/learn"
-                key={article.id}
-                className="group cb-hover-rise overflow-hidden rounded-2xl border border-gray-100 bg-white transition-shadow hover:shadow-lg"
-              >
-                <img
-                  src={homeLearnImages[index]}
-                  alt={article.title}
-                  className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="p-6">
-                  <p className="text-xs font-bold uppercase tracking-wider text-blue-600">{article.category}</p>
-                  <h3 className="mt-3 text-xl font-bold text-[#0a0b0d]">{article.title}</h3>
-                  <p className="mt-3 text-sm text-[#58667e]">{article.description}</p>
-                </div>
-              </Link>
-            ))}
+            <Link to="/learn" className="group cb-hover-rise overflow-hidden rounded-2xl border border-gray-100 bg-white transition-shadow hover:shadow-lg">
+              <img src={homeLearnImages[0]} alt="What is Bitcoin?" className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="p-6">
+                <p className="text-xs font-bold uppercase tracking-wider text-blue-600">BEGINNER</p>
+                <h3 className="mt-3 text-xl font-bold text-[#0a0b0d]">What is Bitcoin?</h3>
+                <p className="mt-3 text-sm text-[#58667e]">Learn the basics of the world's first cryptocurrency.</p>
+              </div>
+            </Link>
+            <Link to="/learn" className="group cb-hover-rise overflow-hidden rounded-2xl border border-gray-100 bg-white transition-shadow hover:shadow-lg">
+              <img src={homeLearnImages[1]} alt="How to earn crypto" className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="p-6">
+                <p className="text-xs font-bold uppercase tracking-wider text-blue-600">GUIDE</p>
+                <h3 className="mt-3 text-xl font-bold text-[#0a0b0d]">How to earn crypto</h3>
+                <p className="mt-3 text-sm text-[#58667e]">Discover different ways to earn cryptocurrency rewards.</p>
+              </div>
+            </Link>
+            <Link to="/learn" className="group cb-hover-rise overflow-hidden rounded-2xl border border-gray-100 bg-white transition-shadow hover:shadow-lg">
+              <img src={homeLearnImages[2]} alt="Ultimate guide" className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="p-6">
+                <p className="text-xs font-bold uppercase tracking-wider text-blue-600">COMPLETE GUIDE</p>
+                <h3 className="mt-3 text-xl font-bold text-[#0a0b0d]">Ultimate crypto guide</h3>
+                <p className="mt-3 text-sm text-[#58667e]">Everything you need to know about cryptocurrency.</p>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -202,15 +226,6 @@ const Home = () => {
             </form>
           </div>
           <img src={takeControlImage} alt="Crypto circular visual" className="mx-auto w-full max-w-md" />
-        </div>
-
-        <div className="mx-auto mt-16 max-w-[1180px] px-6 text-center text-[11px] text-[#7a8190]">
-          <p>Coinbase Bermuda is licensed to conduct digital asset business by the Bermuda Monetary Authority.</p>
-          <p className="mx-auto mt-2 max-w-4xl">
-            Products and features may not be available in all regions. Information is for informational purposes only,
-            and is not intended to provide accounting, legal, or tax advice, or investment recommendations. Trading
-            cryptocurrency comes with risk.
-          </p>
         </div>
       </section>
     </div>
